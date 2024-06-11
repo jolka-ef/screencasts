@@ -1,13 +1,15 @@
 <script setup>
-import { useVideosStore } from '@/stores/videos'
-const videosStore = useVideosStore()
+import Api from '@/services/api.js'
+// import { useVideosStore } from '@/stores/videos'
+const response = await Api().get('/videos')
+const videos = await response.data
 </script>
 
 <template>
   <main>
     <h1>Videos</h1>
     <ul>
-      <li class="video-box" v-for="video in videosStore.videos">
+      <li class="video-box" v-for="video in videos">
         <RouterLink :to="{ name: 'video-watch', params: { id: video.id } }">
           <img class="video-image" :src="video.thumbnail" />
           <h3>{{ video.name }}</h3>
@@ -17,6 +19,7 @@ const videosStore = useVideosStore()
     </ul>
   </main>
 </template>
+
 <style scoped>
 h1,
 h3 {
