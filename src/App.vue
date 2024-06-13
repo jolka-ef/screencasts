@@ -1,5 +1,9 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { useVideosStore } from '@/stores/videos'
+const store = useVideosStore()
+const { loadVideos } = store
+loadVideos()
 </script>
 
 <template>

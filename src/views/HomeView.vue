@@ -1,8 +1,9 @@
 <script setup>
-import Api from '@/services/api.js'
-// import { useVideosStore } from '@/stores/videos'
-const response = await Api().get('/videos')
-const videos = await response.data
+import { storeToRefs } from 'pinia'
+import { useVideosStore } from '@/stores/videos'
+
+const store = useVideosStore()
+const { videos } = storeToRefs(store)
 </script>
 
 <template>
