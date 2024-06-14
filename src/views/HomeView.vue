@@ -1,9 +1,12 @@
-<script setup>
-import { storeToRefs } from 'pinia'
+<script>
 import { useVideosStore } from '@/stores/videos'
+import { mapState } from 'pinia'
 
-const store = useVideosStore()
-const { videos } = storeToRefs(store)
+export default {
+  computed: {
+    ...mapState(useVideosStore, ['getTag', 'videos'])
+  }
+}
 </script>
 
 <template>
@@ -16,6 +19,13 @@ const { videos } = storeToRefs(store)
           <h3>{{ video.name }}</h3>
           <div v-html="video.description"></div>
         </RouterLink>
+        <nav>
+          <ul class="TagsList">
+            <li v-for="tag_id in video.tag_ids">
+              <a class="TagsList-link">{{ getTag(tag_id).name }}</a>
+            </li>
+          </ul>
+        </nav>
       </li>
     </ul>
   </main>
