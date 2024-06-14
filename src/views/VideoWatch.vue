@@ -4,9 +4,11 @@ import { mapState } from 'pinia'
 
 import { VideoPlayer } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
+import VideoListVideoTagNav from '@/components/VideoListVideoTagNav.vue'
 
 export default {
   components: {
+    VideoListVideoTagNav,
     VideoPlayer
   },
   computed: {
@@ -29,13 +31,7 @@ export default {
       :volume="0.6"
     />
 
-    <nav>
-      <ul class="TagsList">
-        <li v-for="tag_id in video.tag_ids">
-          <a class="TagsList-link">{{ getTag(tag_id).name }}</a>
-        </li>
-      </ul>
-    </nav>
+    <VideoListVideoTagNav :tag_ids="video.tag_ids" />
 
     <h1>{{ video.name }}</h1>
 
