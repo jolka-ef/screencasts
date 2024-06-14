@@ -10,12 +10,10 @@ export default {
     VideoPlayer
   },
   computed: {
+    ...mapState(useVideosStore, ['findVideo', 'getTag', 'videos']),
     video() {
-      const store = useVideosStore()
-      const { findVideo } = store
-      return findVideo(this.$route.params.id)
-    },
-    ...mapState(useVideosStore, ['findVideo', 'getTag', 'videos'])
+      return this.findVideo(this.$route.params.id)
+    }
   }
 }
 </script>
@@ -30,19 +28,19 @@ export default {
       :loop="true"
       :volume="0.6"
     />
+
+    <nav>
+      <ul class="TagsList">
+        <li v-for="tag_id in video.tag_ids">
+          <a class="TagsList-link">{{ getTag(tag_id).name }}</a>
+        </li>
+      </ul>
+    </nav>
+
+    <h1>{{ video.name }}</h1>
+
+    <div v-html="video.description"></div>
   </div>
-
-  <nav>
-    <ul class="TagsList">
-      <li v-for="tag_id in video.tag_ids">
-        <a class="TagsList-link">{{ getTag(tag_id).name }}</a>
-      </li>
-    </ul>
-  </nav>
-
-  <h1>{{ video.name }}</h1>
-
-  <div v-html="video.description"></div>
 </template>
 <style>
 .TagsList {
