@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import TagVideoList from '@/views/TagVideoList.vue'
 import VideoWatch from '../views/VideoWatch.vue'
 
 const router = createRouter({
@@ -18,7 +19,8 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
-    { path: '/video/:id', name: 'video-watch', component: VideoWatch, props: true }
+    { path: '/video/:id', name: 'video-watch', component: VideoWatch },
+    { path: '/tag/:id', name: 'tag', component: TagVideoList }
   ]
 })
 
