@@ -30,6 +30,7 @@ export default {
       :loop="true"
       :volume="0.6"
     />
+    <RouterLink :to="{ name: 'video-watch', params: { id: video.id } }" />
 
     <VideoListVideoTagNav :tag_ids="video.tag_ids" />
 
@@ -39,22 +40,6 @@ export default {
   </div>
 </template>
 <style>
-.TagsList {
-  list-style: none;
-  display: flex;
-  justify-content: end;
-  gap: 0.75em;
-
-  padding: 0;
-}
-.TagsList-link {
-  cursor: pointer;
-  display: inline-block;
-  font-size: 1.25em;
-  padding: 0.375em 0.5em;
-  background-color: #d6f3e7;
-  border-radius: 10px;
-}
 .video-watch.video-js {
   width: 50vw;
   aspect-ratio: 2 / 1;

@@ -1,7 +1,7 @@
 <template>
   <h1 v-if="tag">Videos with tag "{{ tag.name }}"</h1>
-  <ul>
-    <li class="video-box" v-for="video in getVideosOnTag(this.$route.params.id)">
+  <ul class="VideoList">
+    <li class="VideoList-item" v-for="video in getVideosOnTag(this.$route.params.id)">
       <VideoListVideo :video="video" />
     </li>
   </ul>

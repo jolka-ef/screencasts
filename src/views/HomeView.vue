@@ -12,19 +12,31 @@ export default {
 </script>
 
 <template>
-  <main>
-    <h1>Videos</h1>
-    <ul>
-      <li class="video-box" v-for="video in videos">
-        <VideoListVideo :video="video" />
-      </li>
-    </ul>
-  </main>
+  <h1>All Videos</h1>
+  <ul class="VideoList">
+    <li class="VideoList-item" v-for="video in videos">
+      <VideoListVideo :video="video" />
+    </li>
+  </ul>
 </template>
 
 <style>
+.VideoList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(18em, 100%), 1fr));
+  grid-template-rows: auto 1fr auto;
+
+  grid-gap: 1.25em;
+  padding: 0;
+  list-style: none;
+}
+.VideoList-item {
+  display: contents;
+}
+
 h1 {
-  margin: 0 auto;
+  font-size: 2em;
+  margin: 1.5em auto;
   width: fit-content;
 }
 .video-box {
