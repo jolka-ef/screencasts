@@ -21,7 +21,12 @@ export const useVideosStore = defineStore('videos', {
       this.videos = videos
       return savedVideo
     },
-
+    deleteVideo(videoID) {
+      console.log(videoID)
+      debugger
+      const videos = this.videos.filter((video) => video.id != videoID)
+      this.videos = videos
+    },
     async loadVideos() {
       const response = await Api().get('/videos')
       const playedVideos = JSON.parse(window.localStorage.playedVideos)
