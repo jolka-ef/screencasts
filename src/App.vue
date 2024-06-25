@@ -10,6 +10,7 @@ loadVideos()
   <header class="Header">
     <nav class="HeaderNav">
       <RouterLink class="HeaderNav-link" to="/">Vue Screencast</RouterLink>
+      <RouterLink class="HeaderNav-link" to="/video/new">Add video</RouterLink>
       <RouterLink class="HeaderNav-link" to="/about">Login</RouterLink>
     </nav>
   </header>

@@ -11,11 +11,22 @@ export function makeServer({ environment = 'development' } = {}) {
     routes() {
       this.namespace = 'api'
       this.get('/videos')
+      this.post('/videos')
       this.get('/tags')
     },
     serializers: {
       application: JSONAPISerializer,
-      video: JSONAPISerializer.extend({ include: ['tags'] }),
+      video: JSONAPISerializer.extend({
+        include: ['tags'],
+        normalize(json) {
+          return {
+            data: {
+              type: 'video',
+              attributes: json
+            }
+          }
+        }
+      }),
       tag: JSONAPISerializer.extend({ include: ['videos'] })
     }
   })
