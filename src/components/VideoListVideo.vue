@@ -5,6 +5,7 @@
     </div>
     <header class="Video-header">
       <h3>{{ video.name }}</h3>
+      <p class="Video-status" v-if="isPlayed(video.id)">&#10004; Played</p>
     </header>
     <VideoListVideoTagNav class="Video-nav" :tag_ids="video.tag_ids" />
   </RouterLink>
@@ -17,7 +18,7 @@ import VideoListVideoTagNav from '@/components/VideoListVideoTagNav.vue'
 export default {
   components: { VideoListVideoTagNav },
   computed: {
-    ...mapState(useVideosStore, ['videos'])
+    ...mapState(useVideosStore, ['isPlayed', 'videos'])
   },
   props: {
     video: Object
