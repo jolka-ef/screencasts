@@ -21,15 +21,19 @@ export const useVideosStore = defineStore('videos', {
       this.videos = videos
       return savedVideo
     },
-    deleteVideo(videoID) {
-      console.log(videoID)
-      debugger
-      const videos = this.videos.filter((video) => video.id != videoID)
-      this.videos = videos
+    async deleteVideo(videoID) {
+      let response = await Api().delete(`/videos/${videoID}`)
+      if (response.status == 200 || response.status == 204) {
+        const videos = this.videos.filter((video) => video.id != videoID)
+        this.videos = videos
+      }
     },
     async loadVideos() {
       const response = await Api().get('/videos')
-      const playedVideos = JSON.parse(window.localStorage.playedVideos)
+      const playedVideos = window.localStorage.playedVideos
+        ? JSON.parse(window.localStorage.playedVideos)
+        : []
+
       const tags = response.data.included
 
         .filter((item) => item.type === 'tags')
@@ -53,9 +57,18 @@ export const useVideosStore = defineStore('videos', {
       this.videos = videos
     },
     markVideoPlayed(videoID) {
-      let playedVideos = this.playedVideos.concat(Number(videoID))
+      let playedVideos = this.playedVideos.concat(videoID)
       window.localStorage.playedVideos = JSON.stringify(playedVideos)
       this.playedVideos = playedVideos
+    },
+    async editVideo(video) {
+      const response = await Api().put(`/videos/${video.id}`, video)
+      const newVideo = response.data.data.attributes
+      this.videos.forEach((video) => {
+        if (video.id == newVideo.id) {
+          video - newVideo
+        }
+      })
     }
   }
 })

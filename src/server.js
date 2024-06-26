@@ -10,9 +10,11 @@ export function makeServer({ environment = 'development' } = {}) {
     models: { video: Model.extend({ tags: hasMany() }), tag: Model.extend({ videos: hasMany() }) },
     routes() {
       this.namespace = 'api'
+      this.delete('/videos/:id')
       this.get('/videos')
-      this.post('/videos')
       this.get('/tags')
+      this.post('/videos')
+      this.put('/videos/:id')
     },
     serializers: {
       application: JSONAPISerializer,
