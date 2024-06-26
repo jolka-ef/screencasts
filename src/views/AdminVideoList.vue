@@ -1,6 +1,6 @@
 <template>
   <v-btn text to="/video/new" @click="">Add Video</v-btn>
-  <v-data-table>
+  <table>
     <caption>
       Video List
     </caption>
@@ -13,33 +13,28 @@
     </thead>
     <tbody>
       <tr v-for="video in videos">
-        <div v-if="video">
-          <th scope="row">{{ video.name }}</th>
-          <td>
-            {{ abbreviate(video.description) }}
-          </td>
-          <td>
-            <RouterLink :to="{ name: 'admin-video-edit', params: { id: video.id } }"
-              >Edit</RouterLink
-            >
-            <RouterLink :to="{ name: 'video-watch', params: { id: video.id } }">Show</RouterLink>
-            <v-btn small @click="deleteVideo(video)">Delete</v-btn>
-          </td>
-        </div>
+        <th scope="row">{{ video.name }}</th>
+        <td>
+          {{ abbreviate(video.description) }}
+        </td>
+        <td class="Actions">
+          <RouterLink :to="{ name: 'admin-video-edit', params: { id: video.id } }">Edit</RouterLink>
+          <RouterLink :to="{ name: 'video-watch', params: { id: video.id } }">Show</RouterLink>
+          <v-btn size="x-small" @click="deleteVideo(video)">Delete</v-btn>
+        </td>
       </tr>
     </tbody>
-  </v-data-table>
+  </table>
 </template>
 <script>
 import { useVideosStore } from '@/stores/videos'
-import { mapActions, mapState } from 'pinia'
+import { mapState } from 'pinia'
 
 export default {
   computed: {
     ...mapState(useVideosStore, ['videos'])
   },
   methods: {
-    // ...mapActions(useVideosStore, ['deleteVideo']),
     abbreviate(text) {
       if (text) {
         text = text.replace('<p>', '')
@@ -55,3 +50,33 @@ export default {
   }
 }
 </script>
+<style scoped>
+.Actions {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+caption {
+  font-size: 2em;
+  font-weight: bold;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) {
+  background: #eee;
+}
+thead th {
+  background: var(--dark-green);
+  color: white;
+  font-weight: bold;
+}
+td,
+th {
+  padding: 6px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+</style>
