@@ -1,21 +1,12 @@
 <template>
-  <form>
-    <v-text-field label="Name" v-model="video.name" variant="solo-filled" />
-    <v-textarea label="Description" v-model="video.description" variant="solo-filled" />
-    <v-text-field label="Thumbnail URL" v-model="video.thumbnail" variant="solo-filled" />
-    <v-text-field
-      label="Video Url"
-      v-model="video.videoUrl"
-      variant="solo-filled"
-      hint="If you want our friends in China to be able to watch this, please use Amazon S3 or similar instead of Youtube and Vimeo."
-    />
-    <v-btn @click="saveVideo">Save Video</v-btn>
-  </form>
+  <VideoEditForm :video="video" :saveVideo="saveVideo" buttonText="Save video" />
 </template>
 <script>
 import { mapState } from 'pinia'
 import { useVideosStore } from '@/stores/videos'
+import VideoEditForm from '@/components/VideoEditForm.vue'
 export default {
+  components: { VideoEditForm },
   computed: {
     ...mapState(useVideosStore, ['editVideo', 'findVideo']),
     video() {
