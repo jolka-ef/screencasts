@@ -1,3 +1,8 @@
+let emailFormat = () => {
+  let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,24})+$/
+  return (value) => (value && regex.test(value)) || 'Must be a valid email'
+}
+
 let maxLength = (propertyType, maxLength) => {
   return (value) =>
     (value && value.length <= maxLength) ||
@@ -15,6 +20,7 @@ let required = (propertyType) => {
 }
 
 export default {
+  emailFormat,
   maxLength,
   minLength,
   required

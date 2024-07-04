@@ -3,8 +3,11 @@ import HomeView from '../views/HomeView.vue'
 import TagVideoList from '@/views/TagVideoList.vue'
 import VideoCreate from '../views/VideoCreate.vue'
 import VideoWatch from '../views/VideoWatch.vue'
+import AdminUserList from '../views/AdminUserList.vue'
 import AdminVideoEdit from '../views/AdminVideoEdit.vue'
 import AdminVideoList from '../views/AdminVideoList.vue'
+import UserLogin from '../views/UserLogin.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -20,6 +23,16 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/login',
+      name: 'user-login',
+      component: UserLogin
+    },
+    {
+      path: '/admin/users',
+      name: 'admin-user-list',
+      component: AdminUserList
     },
 
     {
