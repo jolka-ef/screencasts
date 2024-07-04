@@ -32,23 +32,12 @@
   </v-form>
 </template>
 <script>
+import validation from '@/utils/validation.js'
 export default {
   data() {
     return {
       valid: false,
-      required(propertyType) {
-        return (value) => (value && value.trim().length > 0) || `You must input a ${propertyType}`
-      },
-      minLength(propertyType, minLength) {
-        return (value) =>
-          (value && value.length >= minLength) ||
-          `${propertyType} must be at least ${minLength} characters`
-      },
-      maxLength(propertyType, maxLength) {
-        return (value) =>
-          (value && value.length <= maxLength) ||
-          `${propertyType} must be less than ${maxLength} characters`
-      }
+      ...validation
     }
   },
   props: {
