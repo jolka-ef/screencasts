@@ -44,7 +44,15 @@ const router = createRouter({
     {
       path: '/admin/videos',
       name: 'admin-video-list',
-      component: AdminVideoList
+      component: AdminVideoList,
+      beforeEnter: (to, from, next) => {
+        const currentUser = JSON.parse(window.localStorage.currentUser)
+        if (currentUser && currentUser.admin) {
+          next()
+        } else {
+          next('/')
+        }
+      }
     },
 
     {

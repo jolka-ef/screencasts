@@ -2,7 +2,8 @@
   {
     "id": 1,
     "name": "Toshinori Yagi",
-    "email": "allmight@ua.edu"
+    "email": "allmight@ua.edu",
+    "admin": true
   },
   {
     "id": 2,
@@ -12,7 +13,8 @@
   {
     "id": 3,
     "name": "Jeffrey Biles",
-    "email": "bilesjeffrey@gmail.com"
+    "email": "bilesjeffrey@gmail.com",
+    "admin": true
   },
   {
     "id": 4,
