@@ -42,11 +42,9 @@ export const useVideosStore = defineStore('videos', {
           ...user.attributes
         }
       })
-      const currentUser = JSON.parse(window.localStorage.currentUser)
-
       this.users = users
-      this.currentUser = currentUser
     },
+
     async loadVideos() {
       const response = await Api().get('/videos')
       const playedVideos = window.localStorage.playedVideos
@@ -85,6 +83,25 @@ export const useVideosStore = defineStore('videos', {
       } catch {
         return { error: 'email/password  combination was incorrect. Please try again.' }
       }
+    },
+    async registerUser(registrationInfo) {
+      try {
+        let response = await Api().post('/users', registrationInfo)
+        debugger
+        let user = response.data.data.attributes
+        user.id = response.data.data.id
+        this.currentUser = user
+        window.localStorage.currentUser = JSON.stringify(user)
+        return user
+      } catch (e) {
+        debugger
+
+        return { error: 'There was an error. Please try again.' }
+      }
+    },
+    setCurrentUser() {
+      const currentUser = JSON.parse(window.localStorage.currentUser)
+      this.currentUser = currentUser
     },
     logoutUser() {
       this.currentUser = {}

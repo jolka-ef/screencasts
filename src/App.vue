@@ -2,9 +2,9 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useVideosStore } from '@/stores/videos'
 const store = useVideosStore()
-const { loadVideos } = store
-
+const { loadVideos, setCurrentUser } = store
 loadVideos()
+setCurrentUser()
 </script>
 
 <template>
@@ -16,7 +16,10 @@ loadVideos()
         <p>{{ useVideosStore().currentUser.name }}</p>
         <v-btn @click="store.logoutUser()" class="HeaderNav-link" to="">Logout</v-btn>
       </div>
-      <RouterLink v-else class="HeaderNav-link" to="/login">Login</RouterLink>
+      <div v-else>
+        <RouterLink class="HeaderNav-link" to="/login">Login</RouterLink>
+        <RouterLink class="HeaderNav-link" to="/registration">Register</RouterLink>
+      </div>
     </nav>
   </header>
   <main class="ContentContainer">

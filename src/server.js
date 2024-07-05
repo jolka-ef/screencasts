@@ -17,16 +17,26 @@ export function makeServer({ environment = 'development' } = {}) {
     routes() {
       this.namespace = 'api'
       this.get('/users')
+      this.post('/users')
       this.get('/tags')
       this.delete('/videos/:id')
       this.get('/videos')
       this.post('/videos')
       this.post('/sessions', function (schema, request) {
         let json = JSON.parse(request.requestBody)
-        let response = schema.users.findBy({ name: json.name })
+        let response = schema.users.findBy({ email: json.email })
+        if (json.password == 'aaaaaaaa') {
+          // your actual backend should test the hashed password in the DB
+          return this.serialize(response)
+        } else {
+          return new Response(401)
+        }
+      })
+      this.post('/users', function (schema, request) {
+        let json = JSON.parse(request.requestBody)
+        let response = schema.users.create(json)
         return this.serialize(response)
       })
-      this.put('/videos/:id')
     },
     serializers: {
       application: JSONAPISerializer,
