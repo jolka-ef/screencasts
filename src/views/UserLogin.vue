@@ -1,47 +1,21 @@
 <template>
   <v-container>
-    <v-form>
-      <v-text-field
-        v-model="loginInfo.email"
-        label="email"
-        :rules="[required('email'), emailFormat()]"
-      />
-      <v-text-field
-        v-model="loginInfo.password"
-        label="password"
-        :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-        :type="showPassword ? 'password' : 'text'"
-        @click:append-inner="showPassword = !showPassword"
-        counter
-        :rules="[required('password'), minLength('password', 8)]"
-      />
-
-      <v-btn @click="login">Login</v-btn>
-    </v-form>
+    <UserAuthForm :submitForm="login" buttonText="Login" />
   </v-container>
 </template>
 
 <script>
 import { mapState } from 'pinia'
 import { useVideosStore } from '@/stores/videos'
-import validation from '@/utils/validation'
+import UserAuthForm from '@/components/UserAuthForm.vue'
 export default {
-  data() {
-    return {
-      loginInfo: {
-        email: '',
-        password: ''
-      },
-      showPassword: true,
-      ...validation
-    }
-  },
+  components: { UserAuthForm },
   computed: {
     ...mapState(useVideosStore, ['loginUser'])
   },
   methods: {
-    async login() {
-      const user = await this.loginUser(this.loginInfo)
+    async login(loginInfo) {
+      const user = await this.loginUser(loginInfo)
       if (user.error) {
         alert(user.error)
       } else {
