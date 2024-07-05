@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useVideosStore } from '@/stores/videos'
 const store = useVideosStore()
 const { loadVideos } = store
+
 loadVideos()
 </script>
 
@@ -11,7 +12,11 @@ loadVideos()
     <nav class="HeaderNav">
       <RouterLink class="HeaderNav-link" to="/">Vue Screencast</RouterLink>
       <RouterLink class="HeaderNav-link" to="/admin/videos">Admin</RouterLink>
-      <RouterLink class="HeaderNav-link" to="/about">Login</RouterLink>
+      <div v-if="useVideosStore().currentUser.name">
+        <p>{{ useVideosStore().currentUser.name }}</p>
+        <v-btn @click="store.logoutUser()" class="HeaderNav-link" to="">Logout</v-btn>
+      </div>
+      <RouterLink v-else class="HeaderNav-link" to="/login">Login</RouterLink>
     </nav>
   </header>
   <main class="ContentContainer">
