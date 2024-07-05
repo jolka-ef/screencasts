@@ -1,5 +1,5 @@
 <template>
-  <v-btn text to="/video/new" @click="">Add Video</v-btn>
+  <v-btn text to="admin/video/new" @click="">Add Video</v-btn>
   <table>
     <caption>
       Video List

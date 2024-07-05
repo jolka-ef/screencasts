@@ -11,10 +11,7 @@ setCurrentUser()
   <header class="Header">
     <nav class="HeaderNav">
       <RouterLink class="HeaderNav-link" to="/">Vue Screencast</RouterLink>
-      <RouterLink
-        class="HeaderNav-link"
-        to="/admin/videos"
-        v-if="useVideosStore().currentUser.admin"
+      <RouterLink class="HeaderNav-link" to="/admin" v-if="useVideosStore().currentUser.admin"
         >Admin</RouterLink
       >
       <div v-if="useVideosStore().currentUser.name">

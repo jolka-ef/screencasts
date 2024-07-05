@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TagVideoList from '@/views/TagVideoList.vue'
-import VideoCreate from '../views/VideoCreate.vue'
+import AdminVideoCreate from '../views/AdminVideoCreate.vue'
 import VideoWatch from '../views/VideoWatch.vue'
+import Admin from '../views/Admin.vue'
 import AdminUserList from '../views/AdminUserList.vue'
 import AdminVideoEdit from '../views/AdminVideoEdit.vue'
 import AdminVideoList from '../views/AdminVideoList.vue'
@@ -26,6 +27,43 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
+      beforeEnter: (to, from, next) => {
+        const currentUser = JSON.parse(window.localStorage.currentUser)
+        if (currentUser && currentUser.admin) {
+          next()
+        } else {
+          next('/')
+        }
+      },
+      children: [
+        {
+          path: 'users',
+          name: 'admin-user-list',
+          component: AdminUserList
+        },
+
+        {
+          path: 'videos',
+          name: 'admin-video-list',
+          component: AdminVideoList
+        },
+
+        {
+          path: 'videos/:id/edit',
+          name: 'admin-video-edit',
+          component: AdminVideoEdit
+        },
+        {
+          path: '/video/new',
+          name: 'admin-video-create',
+          component: AdminVideoCreate
+        }
+      ]
+    },
+    {
       path: '/login',
       name: 'user-login',
       component: UserLogin
@@ -35,37 +73,7 @@ const router = createRouter({
       name: 'user-registration',
       component: UserRegistration
     },
-    {
-      path: '/admin/users',
-      name: 'admin-user-list',
-      component: AdminUserList
-    },
 
-    {
-      path: '/admin/videos',
-      name: 'admin-video-list',
-      component: AdminVideoList,
-      beforeEnter: (to, from, next) => {
-        const currentUser = JSON.parse(window.localStorage.currentUser)
-        if (currentUser && currentUser.admin) {
-          next()
-        } else {
-          next('/')
-        }
-      }
-    },
-
-    {
-      path: '/admin/videos/:id/edit',
-      name: 'admin-video-edit',
-      component: AdminVideoEdit
-    },
-
-    {
-      path: '/video/new',
-      name: 'video-create',
-      component: VideoCreate
-    },
     { path: '/video/:id', name: 'video-watch', component: VideoWatch },
     { path: '/tag/:id', name: 'tag', component: TagVideoList }
   ]
