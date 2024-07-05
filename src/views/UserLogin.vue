@@ -1,4 +1,5 @@
 <template>
+  <h1>Login</h1>
   <v-container>
     <UserAuthForm :submitForm="login" buttonText="Login" />
   </v-container>
@@ -19,7 +20,7 @@ export default {
       if (user.error) {
         alert(user.error)
       } else {
-        alert('You logged in ' + 'user.name ')
+        alert(`You logged in ${user.name} `)
       }
     }
   }
