@@ -7,6 +7,7 @@ import AdminUserList from '../views/AdminUserList.vue'
 import AdminVideoEdit from '../views/AdminVideoEdit.vue'
 import AdminVideoList from '../views/AdminVideoList.vue'
 import UserLogin from '../views/UserLogin.vue'
+import UserRegistration from '@/views/UserRegistration.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,11 @@ const router = createRouter({
       path: '/login',
       name: 'user-login',
       component: UserLogin
+    },
+    {
+      path: '/registration',
+      name: 'user-registration',
+      component: UserRegistration
     },
     {
       path: '/admin/users',
