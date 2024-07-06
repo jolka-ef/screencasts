@@ -16,7 +16,7 @@
     />
     <v-text-field
       label="Video Url"
-      v-model="video.videoUrl"
+      v-model="video['video-url']"
       variant="solo-filled"
       :rules="[required('video URL')]"
       hint="If you want our friends in China to be able to watch this, please use Amazon S3 or similar instead of Youtube and Vimeo."

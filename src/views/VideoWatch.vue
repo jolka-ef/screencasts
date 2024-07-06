@@ -14,13 +14,14 @@ export default {
   computed: {
     ...mapState(useVideosStore, ['findVideo', 'getTag', 'isPlayed', 'markVideoPlayed', 'videos']),
     video() {
-      return this.findVideo(this.$route.params.id)
+      const video = this.findVideo(this.$route.params.id)
+      return video
     },
     playerOptions() {
       return {
         sources: [
           {
-            src: "https://vue-screencasts.s3.us-east-2.amazonaws.com/video-files/38-+es2015-+functions+minus+'function'.mp4",
+            src: this.video['video-url'],
             type: 'video/mp4'
           }
         ],
