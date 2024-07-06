@@ -118,13 +118,13 @@ export const useVideosStore = defineStore('videos', {
         tag_ids: response.relationships.tags.data.map((tag) => tag.id)
       }
 
-      debugger
-
       this.videos.forEach((video) => {
         if (video.id == newVideo.id) {
           video = newVideo
         }
       })
+
+      return newVideo
     }
   }
 })
