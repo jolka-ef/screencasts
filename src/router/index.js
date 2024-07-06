@@ -57,7 +57,7 @@ const router = createRouter({
           component: AdminVideoEdit
         },
         {
-          path: '/video/new',
+          path: 'video/new',
           name: 'admin-video-create',
           component: AdminVideoCreate
         }

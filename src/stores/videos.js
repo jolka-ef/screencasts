@@ -87,15 +87,12 @@ export const useVideosStore = defineStore('videos', {
     async registerUser(registrationInfo) {
       try {
         let response = await Api().post('/users', registrationInfo)
-        debugger
         let user = response.data.data.attributes
         user.id = response.data.data.id
         this.currentUser = user
         window.localStorage.currentUser = JSON.stringify(user)
         return user
       } catch (e) {
-        debugger
-
         return { error: 'There was an error. Please try again.' }
       }
     },
@@ -113,11 +110,19 @@ export const useVideosStore = defineStore('videos', {
       this.playedVideos = playedVideos
     },
     async editVideo(video) {
-      const response = await Api().put(`/videos/${video.id}`, video)
-      const newVideo = response.data.data.attributes
+      const response = (await Api().put(`/videos/${video.id}`, video)).data.data
+
+      const newVideo = {
+        id: response.id,
+        ...response.attributes,
+        tag_ids: response.relationships.tags.data.map((tag) => tag.id)
+      }
+
+      debugger
+
       this.videos.forEach((video) => {
         if (video.id == newVideo.id) {
-          video - newVideo
+          video = newVideo
         }
       })
     }

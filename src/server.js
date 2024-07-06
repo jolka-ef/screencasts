@@ -19,6 +19,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.get('/users')
       this.post('/users')
       this.get('/tags')
+      this.put('/videos/:id')
       this.delete('/videos/:id')
       this.get('/videos')
       this.post('/videos')
@@ -51,7 +52,10 @@ export function makeServer({ environment = 'development' } = {}) {
           }
         }
       }),
-      tag: JSONAPISerializer.extend({ include: ['videos'] })
+      tag: JSONAPISerializer.extend({ include: ['videos'] }),
+      user: JSONAPISerializer.extend({
+        attrs: ['name', 'email', 'admin']
+      })
     }
   })
 
