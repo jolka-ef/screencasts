@@ -21,9 +21,12 @@ export default {
   },
 
   methods: {
-    ...mapActions(useVideosStore, ['addVideo']),
+    ...mapActions(useVideosStore, ['addVideo', 'setSnackbar']),
     async createVideo() {
       let video = await this.addVideo(this.video)
+      this.setSnackbar({
+        text: `You have successfully created new video, ${video.name.toUpperCase()}`
+      })
       router.push({ name: 'video-watch', params: { id: video.id } })
     }
   }

@@ -8,17 +8,25 @@
 <script>
 import UserAuthForm from '@/components/UserAuthForm.vue'
 import { useVideosStore } from '@/stores/videos'
+import { mapState } from 'pinia'
 export default {
+  computed: { ...mapState(useVideosStore, ['registerUser', 'setSnackbar']) },
   components: {
     UserAuthForm
   },
   methods: {
     async register(registrationInfo) {
-      const user = await useVideosStore().registerUser(registrationInfo)
+      const user = await this.registerUser(registrationInfo)
+
       if (user.error) {
-        alert(user.error)
+        this.setSnackbar({
+          color: 'error',
+          text: user.error
+        })
       } else {
-        alert('Welcome in our app ' + 'user.name ')
+        this.setSnackbar({
+          text: `Welcome in our app ${user.name}`
+        })
       }
     }
   }

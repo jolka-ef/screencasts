@@ -5,6 +5,7 @@ export const useVideosStore = defineStore('videos', {
   state: () => ({
     currentUser: {},
     playedVideos: [],
+    snackbars: [],
     tags: [],
     users: [],
     videos: []
@@ -125,6 +126,11 @@ export const useVideosStore = defineStore('videos', {
       })
 
       return newVideo
+    },
+    setSnackbar(snackbar) {
+      snackbar.color = snackbar.color || 'success'
+      snackbar.showing = true
+      this.snackbars = this.snackbars.concat(snackbar)
     }
   }
 })

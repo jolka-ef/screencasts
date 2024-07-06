@@ -1,5 +1,5 @@
 <template>
-  <VideoEditForm :video="video" :saveVideo="saveVideo" buttonText="Save video" />
+  <VideoEditForm v-if="video" :video="video" :saveVideo="saveVideo" buttonText="Save video" />
 </template>
 <script>
 import { mapState } from 'pinia'
@@ -8,14 +8,18 @@ import VideoEditForm from '@/components/VideoEditForm.vue'
 export default {
   components: { VideoEditForm },
   computed: {
-    ...mapState(useVideosStore, ['editVideo', 'findVideo']),
+    ...mapState(useVideosStore, ['editVideo', 'findVideo', 'setSnackbar']),
     video() {
       return this.findVideo(this.$route.params.id)
     }
   },
   methods: {
     async saveVideo() {
-      await this.editVideo(this.video)
+      let video = await this.editVideo(this.video)
+      this.setSnackbar({
+        text: `You have successfully edited Your video, ${video.name.toUpperCase()}`
+      })
+
       this.$router.push({ name: 'admin-video-list' })
     }
   }

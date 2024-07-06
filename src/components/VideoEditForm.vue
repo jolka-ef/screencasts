@@ -11,7 +11,7 @@
       label="Description"
       v-model="video.description"
       variant="solo-filled"
-      counter="true"
+      counter="200"
       :rules="[required('description'), minLength('description', 20)]"
     />
     <v-text-field

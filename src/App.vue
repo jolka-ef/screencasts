@@ -29,6 +29,16 @@ setCurrentUser()
       <RouterView />
     </Suspense>
   </main>
+  <v-snackbar
+    v-for="(snackbar, index) in useVideosStore().snackbars.filter((snackbar) => snackbar.showing)"
+    v-model="snackbar.showing"
+    :style="`bottom: ${index * 70}px`"
+    :color="snackbar.color"
+    :timeout="snackbar.timeout"
+  >
+    {{ snackbar.text }}
+    <v-btn @click="snackbar.showing = false" variant="text" size="small">CLOSE</v-btn>
+  </v-snackbar>
 </template>
 
 <style scoped>

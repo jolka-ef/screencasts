@@ -32,7 +32,7 @@ import { mapState } from 'pinia'
 
 export default {
   computed: {
-    ...mapState(useVideosStore, ['videos'])
+    ...mapState(useVideosStore, ['setSnackbar', 'videos'])
   },
   methods: {
     abbreviate(text) {
@@ -43,8 +43,12 @@ export default {
     },
     deleteVideo(video) {
       let response = confirm(`Are you sure you want to delete ${video.name}`)
+
       if (response) {
         useVideosStore().deleteVideo(video.id)
+        this.setSnackbar({
+          text: `You have successfully deleted your video, ${video.name.toUpperCase()}`
+        })
       }
     }
   }

@@ -12,15 +12,25 @@ import UserAuthForm from '@/components/UserAuthForm.vue'
 export default {
   components: { UserAuthForm },
   computed: {
-    ...mapState(useVideosStore, ['loginUser'])
+    ...mapState(useVideosStore, ['loginUser', 'setSnackbar'])
   },
   methods: {
     async login(loginInfo) {
       const user = await this.loginUser(loginInfo)
       if (user.error) {
-        alert(user.error)
+        this.setSnackbar({
+          color: 'error',
+          text: user.error
+        })
       } else {
-        alert(`You logged in ${user.name} `)
+        this.setSnackbar({
+          text: `Thank ypu for signing in ${user.name} `
+        })
+        if (user.admin) {
+          this.$router.push('/admin/videos')
+        } else {
+          this.$router.push('/')
+        }
       }
     }
   }
