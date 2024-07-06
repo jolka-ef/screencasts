@@ -1,5 +1,9 @@
 <template>
-  <RouterLink class="Video" :to="{ name: 'video-watch', params: { id: video.id } }">
+  <RouterLink
+    v-if="video.id"
+    class="Video"
+    :to="{ name: 'video-watch', params: { id: video.id || 'new' } }"
+  >
     <div class="VideoThumbnail">
       <img class="Video-image" :src="video.thumbnail" />
     </div>
@@ -9,6 +13,14 @@
     </header>
     <VideoListVideoTagNav class="Video-nav" :tag_ids="video.tag_ids" />
   </RouterLink>
+  <div v-else class="VideoThumbnail">
+    <img class="Video-image" :src="video.thumbnail" />
+  </div>
+  <header class="Video-header">
+    <h3>{{ video.name }}</h3>
+    <p>{{ video.description }}</p>
+  </header>
+  <VideoListVideoTagNav class="Video-nav" :tag_ids="video.tag_ids" />
 </template>
 <script>
 import { useVideosStore } from '@/stores/videos'
