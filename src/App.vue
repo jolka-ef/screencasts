@@ -2,9 +2,9 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useVideosStore } from '@/stores/videos'
 const store = useVideosStore()
-const { loadVideos, setCurrentUser } = store
+const { loadVideos, loadCurrentUser } = store
 loadVideos()
-setCurrentUser()
+loadCurrentUser()
 </script>
 
 <template>

@@ -23,6 +23,8 @@ export function makeServer({ environment = 'development' } = {}) {
       this.delete('/videos/:id')
       this.get('/videos')
       this.post('/videos')
+      this.get('/users/:id')
+
       this.post('/sessions', function (schema, request) {
         let json = JSON.parse(request.requestBody)
         let response = schema.users.findBy({ email: json.email })
@@ -37,6 +39,9 @@ export function makeServer({ environment = 'development' } = {}) {
         let json = JSON.parse(request.requestBody)
         let response = schema.users.create(json)
         return this.serialize(response)
+      })
+      this.post('/video_plays', function (schema, request) {
+        return new Response(201)
       })
     },
     serializers: {
@@ -54,7 +59,10 @@ export function makeServer({ environment = 'development' } = {}) {
       }),
       tag: JSONAPISerializer.extend({ include: ['videos'] }),
       user: JSONAPISerializer.extend({
-        attrs: ['name', 'email', 'admin']
+        attrs: ['name', 'email', 'admin', 'playedVideos'],
+        keyForAttribute(attr) {
+          return attr
+        }
       })
     }
   })

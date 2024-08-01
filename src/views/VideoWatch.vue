@@ -12,7 +12,14 @@ export default {
     VideoPlayer
   },
   computed: {
-    ...mapState(useVideosStore, ['findVideo', 'getTag', 'isPlayed', 'markVideoPlayed', 'videos']),
+    ...mapState(useVideosStore, [
+      'currentUser',
+      'findVideo',
+      'getTag',
+      'isPlayed',
+      'markVideoPlayed',
+      'videos'
+    ]),
     video() {
       const video = this.findVideo(this.$route.params.id)
       return video
@@ -40,8 +47,10 @@ export default {
     <video-player class="video-watch" :options="playerOptions" @ended="markVideoPlayed(video.id)" />
     <div>
       <h1>{{ video.name }}</h1>
-      <p class="Video-status" v-if="isPlayed(video.id)">&#10004; Played</p>
-      <button v-else @click="markVideoPlayed(video.id)">Mark as played</button>
+      <div v-if="currentUser.name">
+        <p class="Video-status" v-if="isPlayed(video.id)">&#10004; Played</p>
+        <button v-else @click="markVideoPlayed(video.id)">Mark as played</button>
+      </div>
       <div v-html="video.description"></div>
       <VideoListVideoTagNav :tag_ids="video.tag_ids" />
     </div>

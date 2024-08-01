@@ -4,7 +4,6 @@ import Api from '@/services/api.js'
 export const useVideosStore = defineStore('videos', {
   state: () => ({
     currentUser: {},
-    playedVideos: [],
     snackbars: [],
     tags: [],
     users: [],
@@ -17,7 +16,10 @@ export const useVideosStore = defineStore('videos', {
       state.videos.filter((video) =>
         state.tags.find((tag) => tag.id == id).videos_ids.includes(video.id)
       ),
-    isPlayed: (state) => (id) => state.playedVideos.includes(id)
+    playedVideos: (state) => state.currentUser.playedVideos || [],
+    isPlayed() {
+      return (videoId) => this.playedVideos.includes(videoId)
+    }
   },
   actions: {
     async addVideo(video) {
@@ -48,9 +50,6 @@ export const useVideosStore = defineStore('videos', {
 
     async loadVideos() {
       const response = await Api().get('/videos')
-      const playedVideos = window.localStorage.playedVideos
-        ? JSON.parse(window.localStorage.playedVideos)
-        : []
 
       const tags = response.data.included
 
@@ -70,7 +69,6 @@ export const useVideosStore = defineStore('videos', {
           tag_ids: video.relationships.tags.data.map((tag) => tag.id)
         }
       })
-      this.playedVideos = playedVideos
       this.tags = tags
       this.videos = videos
     },
@@ -78,8 +76,8 @@ export const useVideosStore = defineStore('videos', {
       try {
         let response = await Api().post('/sessions', loginInfo)
         let user = response.data.data.attributes
-        this.currentUser = user
-        window.localStorage.currentUser = JSON.stringify(user)
+        user.id = response.data.data.id
+        this.setCurrentUser(user)
         return user
       } catch {
         return { error: 'email/password  combination was incorrect. Please try again.' }
@@ -90,25 +88,34 @@ export const useVideosStore = defineStore('videos', {
         let response = await Api().post('/users', registrationInfo)
         let user = response.data.data.attributes
         user.id = response.data.data.id
-        this.currentUser = user
-        window.localStorage.currentUser = JSON.stringify(user)
+        user.playedVideos = this.playedVideos
+        this.setCurrentUser(user)
         return user
       } catch (e) {
         return { error: 'There was an error. Please try again.' }
       }
     },
-    setCurrentUser() {
-      const currentUser = JSON.parse(window.localStorage.currentUser)
-      this.currentUser = currentUser
+    async loadPlayedVideos(userId) {
+      let response = await Api().get(`/users/${userId}`)
+      let user = response.data.data.attributes
+      this.currentUser.playedVideos = user.playedVideos
+    },
+
+    async loadCurrentUser() {
+      let user = JSON.parse(window.localStorage.currentUser)
+      this.currentUser = user
+      this.loadPlayedVideos(user.id)
     },
     logoutUser() {
       this.currentUser = {}
       window.localStorage.currentUser = JSON.stringify({})
     },
     markVideoPlayed(videoID) {
-      let playedVideos = this.playedVideos.concat(videoID)
-      window.localStorage.playedVideos = JSON.stringify(playedVideos)
-      this.playedVideos = playedVideos
+      if (this.currentUser.name) {
+        let playedVideos = this.currentUser.playedVideos.concat(videoID)
+        this.currentUser.playedVideos = playedVideos
+        Api().post('/video_plays', { video_id: videoID })
+      }
     },
     async editVideo(video) {
       const response = (await Api().put(`/videos/${video.id}`, video)).data.data
@@ -126,6 +133,10 @@ export const useVideosStore = defineStore('videos', {
       })
 
       return newVideo
+    },
+    setCurrentUser(user) {
+      this.currentUser = user
+      window.localStorage.currentUser = JSON.stringify(user)
     },
     setSnackbar(snackbar) {
       snackbar.color = snackbar.color || 'success'
