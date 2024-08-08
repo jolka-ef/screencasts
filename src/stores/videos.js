@@ -25,10 +25,18 @@ export const useVideosStore = defineStore('videos', {
     connectTagToVideo(tag, video) {
       video.tag_ids = video.tag_ids.concat(tag.id)
       tag.videos_ids = tag.videos_ids.concat(video.id)
+      Api().post('/video_tags', {
+        video_id: video.id,
+        tag_id: tag.id
+      })
     },
     disconnectTagFromVideo(tag, video) {
       video.tag_ids = video.tag_ids.filter((id) => id != tag.id)
       tag.videos_ids = tag.videos_ids.filter((id) => id != video.id)
+      Api().post('video_tags/delete', {
+        video_id: video.id,
+        tag_id: tag.id
+      })
     },
     async addVideo(video) {
       let response = await Api().post('/videos', video)

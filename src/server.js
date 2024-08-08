@@ -16,14 +16,24 @@ export function makeServer({ environment = 'development' } = {}) {
     },
     routes() {
       this.namespace = 'api'
+      this.get('/tags')
+      this.put('tags/:id', function () {
+        return new Response(200)
+      })
+      this.delete('tags/:id')
       this.get('/users')
       this.post('/users')
-      this.get('/tags')
       this.put('/videos/:id')
       this.delete('/videos/:id')
       this.get('/videos')
       this.post('/videos')
       this.get('/users/:id')
+      this.post('/video_tags', function () {
+        return new Response(201)
+      })
+      this.post('/video_tags/delete', function () {
+        return new Response(200)
+      })
 
       this.post('/sessions', function (schema, request) {
         let json = JSON.parse(request.requestBody)
@@ -34,6 +44,11 @@ export function makeServer({ environment = 'development' } = {}) {
         } else {
           return new Response(401)
         }
+      })
+      this.post('/tags', function ({ tags }, { requestBody }) {
+        let json = JSON.parse(requestBody)
+        let response = tags.create(json)
+        return this.serialize(response)
       })
       this.post('/users', function (schema, request) {
         let json = JSON.parse(request.requestBody)
