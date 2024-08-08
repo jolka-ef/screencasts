@@ -22,6 +22,14 @@ export const useVideosStore = defineStore('videos', {
     }
   },
   actions: {
+    connectTagToVideo(tag, video) {
+      video.tag_ids = video.tag_ids.concat(tag.id)
+      tag.videos_ids = tag.videos_ids.concat(video.id)
+    },
+    disconnectTagFromVideo(tag, video) {
+      video.tag_ids = video.tag_ids.filter((id) => id != tag.id)
+      tag.videos_ids = tag.videos_ids.filter((id) => id != video.id)
+    },
     async addVideo(video) {
       let response = await Api().post('/videos', video)
       let savedVideo = response.data.data
@@ -142,6 +150,10 @@ export const useVideosStore = defineStore('videos', {
       snackbar.color = snackbar.color || 'success'
       snackbar.showing = true
       this.snackbars = this.snackbars.concat(snackbar)
+    },
+    updateTags(videoID, newTags) {
+      const video = this.findVideo(videoID)
+      video.tag_ids = newTags.map((tag) => tag.id)
     }
   }
 })

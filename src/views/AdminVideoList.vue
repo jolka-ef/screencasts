@@ -19,7 +19,9 @@
         </td>
         <td class="Actions">
           <RouterLink :to="{ name: 'admin-video-edit', params: { id: video.id } }">Edit</RouterLink>
-          <RouterLink :to="{ name: 'video-watch', params: { id: video.id } }">Show</RouterLink>
+          <RouterLink :to="{ name: 'video-watch', params: { id: video.id } }">Watch</RouterLink>
+          <RouterLink :to="{ name: 'admin-video-show', params: { id: video.id } }">Show</RouterLink>
+
           <v-btn size="x-small" @click="deleteVideo(video)">Delete</v-btn>
         </td>
       </tr>

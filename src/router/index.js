@@ -6,6 +6,7 @@ import VideoWatch from '../views/VideoWatch.vue'
 import Admin from '../views/Admin.vue'
 import AdminUserList from '../views/AdminUserList.vue'
 import AdminVideoEdit from '../views/AdminVideoEdit.vue'
+import AdminVideoShow from '../views/AdminVideoShow.vue'
 import AdminVideoList from '../views/AdminVideoList.vue'
 import UserLogin from '../views/UserLogin.vue'
 import UserRegistration from '@/views/UserRegistration.vue'
@@ -55,6 +56,11 @@ const router = createRouter({
           path: 'videos/:id/edit',
           name: 'admin-video-edit',
           component: AdminVideoEdit
+        },
+        {
+          path: 'videos/:id/show',
+          name: 'admin-video-show',
+          component: AdminVideoShow
         },
         {
           path: 'video/new',
