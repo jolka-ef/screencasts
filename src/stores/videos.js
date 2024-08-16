@@ -68,7 +68,6 @@ export const useVideosStore = defineStore('videos', {
       const response = await Api().get('/videos')
 
       const tags = response.data.included
-
         .filter((item) => item.type === 'tags')
         .map((tag) => {
           return {

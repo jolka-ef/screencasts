@@ -1,7 +1,7 @@
 import axios from 'axios'
-
+import { savedUser } from '@/utils/getSavedUser'
 export default () => {
-  let currentUser = JSON.parse(window.localStorage.currentUser)
+  let currentUser = savedUser()
 
   return axios.create({
     baseURL: '/api',
