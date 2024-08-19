@@ -3,7 +3,7 @@
     <ul class="TagsList">
       <li v-for="tag_id in tag_ids">
         <RouterLink class="TagsList-link" :to="{ name: 'tag', params: { id: tag_id } }">{{
-          getTag(tag_id).name
+          getTag(tag_id)?.name
         }}</RouterLink>
       </li>
     </ul>
