@@ -1,7 +1,7 @@
 <template>
   <h4>{{ video.name }}</h4>
   <p v-html="video.description"></p>
-  <v-autocomplete
+  <v-combobox
     label="Tags"
     :items="tags"
     item-title="name"
@@ -13,7 +13,7 @@
     multiple=""
     return-object
   >
-  </v-autocomplete>
+  </v-combobox>
 </template>
 <script>
 import { mapState } from 'pinia'
@@ -22,6 +22,7 @@ import _ from 'lodash'
 export default {
   computed: {
     ...mapState(useVideosStore, [
+      'createTag',
       'connectTagToVideo',
       'disconnectTagFromVideo',
       'findVideo',
@@ -37,16 +38,21 @@ export default {
       get() {
         return (this.video.tag_ids && this.video.tag_ids.map((id) => this.getTag(id))) || []
       },
-      set(newTags) {
-        console.log(this.videoTags)
-        console.log(this.video)
-        const addedTags = _.differenceBy(newTags, this.videoTags, 'id')
-        const removedTags = _.differenceBy(this.videoTags, newTags, 'id')
-        if (addedTags.length > 0) {
-          this.connectTagToVideo(addedTags[0], this.video)
-        }
-        if (removedTags.length > 0) {
-          this.disconnectTagFromVideo(removedTags[0], this.video)
+      async set(newTags) {
+        const newTagName = newTags.find((tag) => typeof tag == 'string')
+        if (newTagName) {
+          const newTag = await this.createTag(newTagName)
+          this.connectTagToVideo(newTag, this.video)
+        } else {
+          const addedTags = _.differenceBy(newTags, this.videoTags, 'id')
+          const removedTags = _.differenceBy(this.videoTags, newTags, 'id')
+
+          if (addedTags.length > 0) {
+            this.connectTagToVideo(addedTags[0], this.video)
+          }
+          if (removedTags.length > 0) {
+            this.disconnectTagFromVideo(removedTags[0], this.video)
+          }
         }
       }
     }

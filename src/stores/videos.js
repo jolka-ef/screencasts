@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { getSavedUser } from '@/utils/getSavedUser'
 import Api from '@/services/api.js'
 
 export const useVideosStore = defineStore('videos', {
@@ -22,6 +23,13 @@ export const useVideosStore = defineStore('videos', {
     }
   },
   actions: {
+    async createTag(name) {
+      let response = await Api().post('/tags', { name })
+      const tag = { id: response.data.data.id, videos_ids: [], ...response.data.data.attributes }
+      const tags = this.tags.concat(tag)
+      this.tags = tags
+      return tag
+    },
     connectTagToVideo(tag, video) {
       video.tag_ids = video.tag_ids.concat(tag.id)
       tag.videos_ids = tag.videos_ids.concat(video.id)
@@ -63,28 +71,26 @@ export const useVideosStore = defineStore('videos', {
       })
       this.users = users
     },
-
+    async loadTags() {
+      const response = await Api().get('/tags')
+      const tags = response.data.data.map((tag) => {
+        return {
+          id: tag.id,
+          ...tag.attributes,
+          videos_ids: tag.relationships.videos.data.map((video) => video.id)
+        }
+      })
+      this.tags = tags
+    },
     async loadVideos() {
       const response = await Api().get('/videos')
-
-      const tags = response.data.included
-        .filter((item) => item.type === 'tags')
-        .map((tag) => {
-          return {
-            id: tag.id,
-            ...tag.attributes,
-            videos_ids: tag.relationships.videos.data.map((video) => video.id)
-          }
-        })
-
-      const videos = await response.data.data.map((video) => {
+      const videos = response.data.data.map((video) => {
         return {
           id: video.id,
           ...video.attributes,
           tag_ids: video.relationships.tags.data.map((tag) => tag.id)
         }
       })
-      this.tags = tags
       this.videos = videos
     },
     async loginUser(loginInfo) {
@@ -117,9 +123,9 @@ export const useVideosStore = defineStore('videos', {
     },
 
     async loadCurrentUser() {
-      let user = JSON.parse(window.localStorage.currentUser)
+      const user = getSavedUser()
       this.currentUser = user
-      this.loadPlayedVideos(user.id)
+      user && this.loadPlayedVideos(user.id)
     },
     logoutUser() {
       this.currentUser = {}
