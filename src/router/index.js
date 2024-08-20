@@ -8,6 +8,8 @@ import AdminUserList from '../views/AdminUserList.vue'
 import AdminVideoEdit from '../views/AdminVideoEdit.vue'
 import AdminVideoShow from '../views/AdminVideoShow.vue'
 import AdminVideoList from '../views/AdminVideoList.vue'
+import AdminTagList from '../views/AdminTagList.vue'
+
 import UserLogin from '../views/UserLogin.vue'
 import UserRegistration from '@/views/UserRegistration.vue'
 
@@ -66,7 +68,17 @@ const router = createRouter({
           path: 'video/new',
           name: 'admin-video-create',
           component: AdminVideoCreate
+        },
+        {
+          path: 'tags',
+          name: 'admin-tag-list',
+          component: AdminTagList
         }
+        // {
+        //   path: 'tags/:id/edit',
+        //   name: 'admin-tag-edit',
+        //   component: AdminTagEdit
+        // }
       ]
     },
     {

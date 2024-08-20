@@ -61,6 +61,18 @@ export const useVideosStore = defineStore('videos', {
         this.videos = videos
       }
     },
+    async deleteTag(tagId) {
+      let response = await Api().delete(`/tags/${tagId}`)
+      if (response.status == 200 || response.status == 204) {
+        const tags = this.tags.filter((tag) => tag.id != tagId)
+        this.tags = tags
+      }
+    },
+    async updateTagName(tag) {
+      await Api().put(`/tags/:${tag.id}`, { tag })
+      let tagToUpdate = this.tags.find((t) => t.id == tag.id)
+      tagToUpdate.name = tag.name
+    },
     async loadUsers() {
       const response = await Api().get('/users')
       const users = await response.data.data.map((user) => {
