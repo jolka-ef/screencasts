@@ -15,7 +15,7 @@ export const useVideosStore = defineStore('videos', {
     getTag: (state) => (id) => state.tags.find((tag) => tag.id == id),
     getVideosOnTag: (state) => (id) =>
       state.videos.filter((video) =>
-        state.tags.find((tag) => tag.id == id).videos_ids.includes(video.id)
+        state.tags.find((tag) => tag.id == id)?.videos_ids.includes(video.id)
       ),
     playedVideos: (state) => state.currentUser.playedVideos || [],
     isPlayed() {

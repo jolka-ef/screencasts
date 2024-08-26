@@ -2,9 +2,12 @@
   <nav>
     <ul class="TagsList">
       <li v-for="tag_id in tag_ids">
-        <RouterLink class="TagsList-link" :to="{ name: 'tag', params: { id: tag_id } }">{{
-          getTag(tag_id)?.name
-        }}</RouterLink>
+        <RouterLink
+          v-if="getTag(tag_id)"
+          class="TagsList-link"
+          :to="{ name: 'tag', params: { id: tag_id } }"
+          >{{ getTag(tag_id).name }}</RouterLink
+        >
       </li>
     </ul>
   </nav>
