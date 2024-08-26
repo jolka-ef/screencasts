@@ -33,7 +33,14 @@
       </tr>
     </tbody>
   </table>
-  <v-btn text to="/admin/tag/new" @click="">Add Tag</v-btn>
+  <v-text-field
+    v-if="isEditingNewTag"
+    autofocus
+    v-model="newTagName"
+    @blur="createNewTag"
+    @keydown.enter="createNewTag"
+  />
+  <v-btn text v-else @click="showFieldForAddingTag">Add Tag</v-btn>
 </template>
 
 <script>
@@ -42,11 +49,11 @@ import { useVideosStore } from '@/stores/videos'
 
 export default {
   data() {
-    return { tagEditingId: '' }
+    return { tagEditingId: '', newTagName: '', isEditingNewTag: false }
   },
 
   computed: {
-    ...mapState(useVideosStore, ['setSnackbar', 'tags', 'updateTagName'])
+    ...mapState(useVideosStore, ['createTag', 'setSnackbar', 'tags', 'updateTagName'])
   },
   methods: {
     editTagName(id) {
@@ -67,6 +74,16 @@ export default {
     updateTag(tag) {
       this.tagEditingId = ''
       this.updateTagName(tag)
+    },
+    createNewTag() {
+      if (this.newTagName.length > 0) {
+        this.createTag(this.newTagName)
+        this.newTagName = ''
+      }
+      this.isEditingNewTag = false
+    },
+    showFieldForAddingTag() {
+      this.isEditingNewTag = true
     }
   }
 }
