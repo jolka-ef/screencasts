@@ -53,7 +53,9 @@ export default {
       this.tagEditingId = id
     },
     deleteTag(tag) {
-      let response = confirm(`Are you sure you want to delete ${tag.name}`)
+      let response = confirm(
+        `Are you sure you want to delete ${tag.name} ? This tag is connected to ${tag.videos_ids.length} videos.`
+      )
 
       if (response) {
         useVideosStore().deleteTag(tag.id)
