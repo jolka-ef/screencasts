@@ -44,18 +44,19 @@
 </template>
 
 <script>
-import { mapState } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { useVideosStore } from '@/stores/videos'
-
+import { useSnackbarsStore } from '@/stores/snackbars'
 export default {
   data() {
     return { tagEditingId: '', newTagName: '', isEditingNewTag: false }
   },
 
   computed: {
-    ...mapState(useVideosStore, ['createTag', 'setSnackbar', 'tags', 'updateTagName'])
+    ...mapState(useVideosStore, ['createTag', 'tags', 'updateTagName'])
   },
   methods: {
+    ...mapActions(useSnackbarsStore, ['setSnackbar']),
     editTagName(id) {
       this.tagEditingId = id
     },

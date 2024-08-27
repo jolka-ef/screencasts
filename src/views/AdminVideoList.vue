@@ -29,14 +29,17 @@
   </table>
 </template>
 <script>
+import { useSnackbarsStore } from '@/stores/snackbars'
 import { useVideosStore } from '@/stores/videos'
-import { mapState } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 
 export default {
   computed: {
-    ...mapState(useVideosStore, ['setSnackbar', 'videos'])
+    ...mapState(useVideosStore, ['videos'])
   },
   methods: {
+    ...mapActions(useSnackbarsStore, ['setSnackbar']),
+
     abbreviate(text) {
       if (text) {
         text = text.replace('<p>', '')

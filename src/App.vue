@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { useVideosStore } from '@/stores/videos'
+import { useSnackbarsStore } from '@/stores/snackbars'
 const store = useVideosStore()
 const { loadTags, loadVideos, loadCurrentUser } = store
 loadVideos()
@@ -31,7 +32,9 @@ loadCurrentUser()
     </Suspense>
   </main>
   <v-snackbar
-    v-for="(snackbar, index) in useVideosStore().snackbars.filter((snackbar) => snackbar.showing)"
+    v-for="(snackbar, index) in useSnackbarsStore().snackbars.filter(
+      (snackbar) => snackbar.showing
+    )"
     v-model="snackbar.showing"
     :style="`bottom: ${index * 70}px`"
     :color="snackbar.color"

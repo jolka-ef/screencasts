@@ -6,15 +6,17 @@
 </template>
 
 <script>
-import { mapState } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { useVideosStore } from '@/stores/videos'
 import UserAuthForm from '@/components/UserAuthForm.vue'
+import { useSnackbarsStore } from '@/stores/snackbars'
 export default {
   components: { UserAuthForm },
   computed: {
-    ...mapState(useVideosStore, ['loginUser', 'setSnackbar'])
+    ...mapState(useVideosStore, ['loginUser'])
   },
   methods: {
+    ...mapActions(useSnackbarsStore, ['setSnackbar']),
     async login(loginInfo) {
       const user = await this.loginUser(loginInfo)
       if (user.error) {

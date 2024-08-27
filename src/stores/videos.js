@@ -5,7 +5,6 @@ import Api from '@/services/api.js'
 export const useVideosStore = defineStore('videos', {
   state: () => ({
     currentUser: {},
-    snackbars: [],
     tags: [],
     users: [],
     videos: []
@@ -171,11 +170,7 @@ export const useVideosStore = defineStore('videos', {
       this.currentUser = user
       window.localStorage.currentUser = JSON.stringify(user)
     },
-    setSnackbar(snackbar) {
-      snackbar.color = snackbar.color || 'success'
-      snackbar.showing = true
-      this.snackbars = this.snackbars.concat(snackbar)
-    },
+
     updateTags(videoID, newTags) {
       const video = this.findVideo(videoID)
       video.tag_ids = newTags.map((tag) => tag.id)

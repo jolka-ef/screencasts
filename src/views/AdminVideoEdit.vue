@@ -2,18 +2,21 @@
   <VideoEditForm v-if="video" :video="video" :saveVideo="saveVideo" buttonText="Save video" />
 </template>
 <script>
-import { mapState } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { useVideosStore } from '@/stores/videos'
+import { useSnackbarsStore } from '@/stores/snackbars'
 import VideoEditForm from '@/components/VideoEditForm.vue'
 export default {
   components: { VideoEditForm },
   computed: {
-    ...mapState(useVideosStore, ['editVideo', 'findVideo', 'setSnackbar']),
+    ...mapState(useVideosStore, ['editVideo', 'findVideo']),
+
     video() {
       return this.findVideo(this.$route.params.id)
     }
   },
   methods: {
+    ...mapActions(useSnackbarsStore, ['setSnackbar']),
     async saveVideo() {
       let video = await this.editVideo(this.video)
       this.setSnackbar({

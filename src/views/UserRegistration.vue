@@ -7,14 +7,18 @@
 </template>
 <script>
 import UserAuthForm from '@/components/UserAuthForm.vue'
+import { useSnackbarsStore } from '@/stores/snackbars'
 import { useVideosStore } from '@/stores/videos'
-import { mapState } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 export default {
-  computed: { ...mapState(useVideosStore, ['registerUser', 'setSnackbar']) },
+  computed: {
+    ...mapState(useVideosStore, ['registerUser'])
+  },
   components: {
     UserAuthForm
   },
   methods: {
+    ...mapActions(useSnackbarsStore, ['setSnackbar']),
     async register(registrationInfo) {
       const user = await this.registerUser(registrationInfo)
 

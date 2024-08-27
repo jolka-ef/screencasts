@@ -5,6 +5,7 @@
 </template>
 <script>
 import { useVideosStore } from '@/stores/videos'
+import { useSnackbarsStore } from '@/stores/snackbars'
 import { mapActions } from 'pinia'
 import VideoListVideo from '@/components/VideoListVideo.vue'
 import VideoEditForm from '@/components/VideoEditForm.vue'
@@ -21,7 +22,9 @@ export default {
   },
 
   methods: {
-    ...mapActions(useVideosStore, ['addVideo', 'setSnackbar']),
+    ...mapActions(useVideosStore, ['addVideo']),
+    ...mapActions(useSnackbarsStore, ['setSnackbar']),
+
     async createVideo() {
       let video = await this.addVideo(this.video)
       this.setSnackbar({

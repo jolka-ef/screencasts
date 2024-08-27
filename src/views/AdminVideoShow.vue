@@ -16,10 +16,12 @@
   </v-combobox>
 </template>
 <script>
-import { mapState } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { useVideosStore } from '@/stores/videos'
+import { useSnackbarsStore } from '@/stores/snackbars'
 import _ from 'lodash'
 export default {
+  methods: { ...mapActions(useSnackbarsStore, ['setSnackbar']) },
   computed: {
     ...mapState(useVideosStore, [
       'createTag',
@@ -27,10 +29,10 @@ export default {
       'disconnectTagFromVideo',
       'findVideo',
       'getTag',
-      'setSnackbar',
       'tags',
       'updateTags'
     ]),
+
     video() {
       return this.findVideo(this.$route.params.id) || {}
     },
